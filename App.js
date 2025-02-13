@@ -1,11 +1,12 @@
 import React from 'react';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
+import AppNavigator from "../Nowjobs/src/navigation/AppNavigation"
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Hello, World!</Text>
-    </SafeAreaView>
+
+      <AppNavigator></AppNavigator>
+   
   );
 };
 
