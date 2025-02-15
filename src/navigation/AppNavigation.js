@@ -19,13 +19,45 @@ const Stack = createStackNavigator();
 
 // Create a stack navigator for screens that need to be nested within tabs
 const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="LastMinJob" component={LastMinJob} />
-    </Stack.Navigator>
-  );
-};
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          gestureEnabled: true,
+          animationEnabled: true,
+          transitionSpec: {
+            open: { animation: 'timing', config: { duration: 300 } },
+            close: { animation: 'timing', config: { duration: 300 } }
+          },
+          cardStyleInterpolator: ({ current }) => ({
+            cardStyle: {
+              opacity: current.progress,
+            },
+          }),
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen 
+          name="LastMinJob" 
+          component={LastMinJob}
+          options={{ 
+            gestureDirection: 'horizontal',
+            cardStyleInterpolator: ({ current, layouts }) => ({
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            })
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
 
 const AppNavigation = () => {
   return (
