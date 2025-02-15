@@ -1,41 +1,48 @@
-import react from "react";
-import {
-    View,
-    Text,
-
-} from "react-native";
-
-
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// the main tabs from the home scrren 
-import HomeScreen from '../screens/HomeScreen/HomeScreen'
+import { createStackNavigator } from "@react-navigation/stack";
+
+// Main tabs
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import VacanciesScreen from "../screens/VacanciesScreen/VacanciesScreen";
 import ChatScreen from "../screens/ChatScreen/ChatScreen";
 import PlanningScreen from "../screens/Planning Screen/PlanningScreen";
 import ApplicationScreen from "../screens/ApplicationScreen/ApplicationScreen";
 
-// all the other screens
+// Other screens
 import LastMinJob from "../screens/LastMinJobScreen/LastMinJob";
 import ProfileScreen from "../screens/ProfileScreen/ProfileScreen";
 
-const Tab = createBottomTabNavigator(); 
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+// Create a stack navigator for screens that need to be nested within tabs
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="LastMinJob" component={LastMinJob} />
+    </Stack.Navigator>
+  );
+};
 
 const AppNavigation = () => {
-    return (
+  return (
+    <NavigationContainer>
+      <Tab.Navigator lazy>
+        <Tab.Screen 
+          name="Home" 
+          component={HomeStack} 
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen name="Vacancies" component={VacanciesScreen} />
+        <Tab.Screen name="Application" component={ApplicationScreen} />
+        <Tab.Screen name="Planning" component={PlanningScreen} />
+        <Tab.Screen name="Chat" component={ChatScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
 
-        <NavigationContainer>
-            <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Vacancies" component={VacanciesScreen} />
-            <Tab.Screen name="Application" component={ApplicationScreen} />
-            <Tab.Screen name="Planning" component={PlanningScreen} />
-            <Tab.Screen name="Chat" component={ChatScreen}/>
-            </Tab.Navigator>
-
-
-        </NavigationContainer>
-
-    )
-}
-export default AppNavigation; 
+export default AppNavigation;
